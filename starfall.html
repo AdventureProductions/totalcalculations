@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starry Dynamic Background</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .star {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+
+  @keyframes moveDown {
+    to {
+      transform: translate(100vw, 100vh);
+    }
+  }
+</style>
+</head>
+<body>
+<script>
+  function createStar() {
+    const star = document.createElement('div');
+    star.classList.add('star');
+
+    const starSize = Math.random() * 2 + 1;  // Stars size between 1px and 3px
+    const startPosX = Math.random() * window.innerWidth * 1.5 - window.innerWidth * 0.5;
+    const startPosY = Math.random() * window.innerHeight * 1.5 - window.innerHeight * 0.5;
+
+    star.style.width = `${starSize}px`;
+    star.style.height = `${starSize}px`;
+    star.style.left = `${startPosX}px`;
+    star.style.top = `${startPosY}px`;
+
+    document.body.appendChild(star);
+
+    // Apply animation
+    const animationDuration = Math.random() * 5 + 5; // Animation lasts between 5 and 10 seconds
+    star.style.animation = `moveDown ${animationDuration}s linear infinite`;
+
+    // Remove star after it falls out of view to avoid memory leaks
+    setTimeout(() => {
+      star.remove();
+    }, animationDuration * 1000);
+  }
+
+  function initStars() {
+    const starsCount = 100; // Number of stars
+    for (let i = 0; i < starsCount; i++) {
+      createStar();
+    }
+
+    // Additional stars are created every second to maintain the number as stars fall
+    setInterval(createStar, 1000);
+  }
+
+  window.onload = initStars;
+</script>
+</body>
+</html>
